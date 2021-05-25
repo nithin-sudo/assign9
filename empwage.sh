@@ -1,17 +1,28 @@
 #!/bin/bash -x
 echo "employee wage computaion"
-random=$((RANDOM%3))
-wage_perHr=20
-case $random in
-	1)echo "employee is present"
-	day_hr=8
-		;;
-	2)echo "employee parttime present"
-	day_hr=4
-		;;
-	*) echo "employee is absent"
-	day_hr=0
-		;;
-esac
-wage_calc=$(($wage_perHr*$day_hr))
-echo "salary is : $wage_calc"
+isPresent=1
+isPartPresent=2
+wage_per_hr=20
+day_hr=8
+part_day_hr=4
+month=20
+empwage=0
+for ((i=1; i<=$month; i++))
+do
+	random=$((RANDOM%3))
+	case $random in
+		$isPresent)echo "employee is full time present
+		salary=$(($wage_per_hr*$day_hr))
+		empwage=$(($empwage+$salary))
+			;;
+		$isPartPresent)echo "employee parttime present"
+		salary=$(($wage_per_hr*$day_hr))
+                empwage=$(($empwage+$salary))
+			;;
+		*) echo "employee is absent"
+		salary=0
+		empwage=$(($empwage+$salary))
+			;;
+	esac
+done
+echo "salary for a month :$empwage"
