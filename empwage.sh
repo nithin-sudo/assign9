@@ -1,4 +1,12 @@
 #!/bin/bash -x
+function wrkhrs()
+{
+ case $1 in
+	   2) echo "8" ;;
+	   1) echo "4" ;;
+ 	   0) echo "0" ;;
+ esac
+}
 echo "employee wage computaion"
 wrkhrs=0
 isPresent=1
@@ -12,17 +20,17 @@ for ((i=1; i<=$month; i++))
 do
 	if [ $wrkhrs -lt 100 ]
 	then
-		random=$((RANDOM%3))
-		case $random in
+		ran=$((RANDOM%3))
+		case $ran in
 			$isPresent)echo "employee is full time present"
-			salary=$(($wage_per_hr*$day_hr))
+			salary=$(($wage_per_hr*`wrkhrs $ran`))
 			empwage=$(($empwage+$salary))
-			wrkhrs=$(($wrkhrs+$day_hr))
+			wrkhrs=$(($wrkhrs+`wrkhrs $ran`))
 				;;
 			$isPartPresent)echo "employee parttime present"
-			salary=$(($wage_per_hr*$day_hr))
+			salary=$(($wage_per_hr*`wrkhrs $ran`))
                 	empwage=$(($empwage+$salary))
-			wrkhrs=$(($wrkhrs+$part_day_hr))
+			wrkhrs=$(($wrkhrs+`wrkhrs $ran`))
 				;;
 			*) echo "employee is absent"
 			salary=0
@@ -34,4 +42,3 @@ do
 	fi
 done
 echo "salary credited $empwage rupees for $wrkhrs hrs  in $(($i-1)) days"
-
